@@ -1,6 +1,8 @@
 import React from 'react';
 import '../index.css';
-import {Button, Modal, Form, FormGroup,Col, FormControl,ControlLabel } from 'react-bootstrap';
+import {Button, Modal, Form, FormGroup,Col,FormControl,ControlLabel,HelpBlock } from 'react-bootstrap';
+import {login} from '../actions/auth';
+import { connect } from 'react-redux';
 
 
 export class Login extends React.Component {
@@ -11,8 +13,12 @@ export class Login extends React.Component {
       this.handleClose = this.handleClose.bind(this);
   
       this.state = {
-        show: false
+        show: false,
+        validationState:"",
+        validationError:""
+
       };
+      this.values = { userName: "", password: "" };
     }
   
     handleClose() {
@@ -21,6 +27,16 @@ export class Login extends React.Component {
   
     handleShow() {
       this.setState({ show: true });
+    }
+
+    login = () => {
+      console.log(this.values.userName,this.values.password)
+      this.props.dispatch(login(this.values.userName, this.values.password))
+      .then(res => {
+         if (res !== undefined){
+            this.setState({ validationState:"error", validationError:"Incorrect username or password." });
+         } 
+     })
     }
   
     render() {
@@ -37,27 +53,29 @@ export class Login extends React.Component {
             <Modal.Body>
                   <Form horizontal>
                   
-                    <FormGroup controlId="formHorizontalEmail">
+                    <FormGroup controlId="formHorizontalEmail" validationState={this.state.validationState}>
                       <Col componentClass={ControlLabel} sm={2}>
                         Email
                       </Col>
                       <Col sm={10}>
-                        <FormControl type="email" placeholder="Email" />
+                        <FormControl type="email" placeholder="Email" onChange={(e) => { this.values.userName = e.currentTarget.value } } />
                       </Col>
+                      <FormControl.Feedback />
+                      <HelpBlock>{this.state.validationError}</HelpBlock>
                     </FormGroup>
 
-                    <FormGroup controlId="formHorizontalPassword">
+                    <FormGroup controlId="formHorizontalPassword" validationState={this.state.validationState}>
                       <Col componentClass={ControlLabel} sm={2}>
                         Password
                       </Col>
                       <Col sm={10}>
-                        <FormControl type="password" placeholder="Password" />
+                        <FormControl type="password" placeholder="Password" onChange={(e) => { this.values.password = e.currentTarget.value } }/>
                       </Col>
                     </FormGroup>
 
                     <FormGroup>
                       <Col smOffset={2} sm={10}>
-                        <Button bsStyle="info" bsSize="large" onClick={this.handleClose}>Log-in</Button>
+                        <Button bsStyle="info" bsSize="large" onClick={this.login}>Log-in</Button>
                       </Col>
                     </FormGroup>
                   </Form>
@@ -70,4 +88,8 @@ export class Login extends React.Component {
     }
   }
   
-  export default Login;
+const mapStateToProps = state => ({
+    loggedIn: state.auth.currentUser !== null
+});
+
+export default connect(mapStateToProps)(Login);

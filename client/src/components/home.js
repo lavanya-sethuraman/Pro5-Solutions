@@ -3,10 +3,13 @@ import '../index.css';
 import { Jumbotron, ButtonToolbar } from 'react-bootstrap';
 import Signup from '../containers/signup.js';
 import Login from '../containers/login.js';
+import { Dashboard } from '../containers/dashboard';
+
 
 
 export default function Home() {
     return (
+        //<Dashboard />
         <Jumbotron className="jumbotron">
             <h1>Project Management Tool</h1>
             <p>
