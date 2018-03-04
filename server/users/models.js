@@ -17,12 +17,13 @@ const UserSchema = mongoose.Schema({
     type: String, 
     default: ""
   },
-  projects:[{
-      name: {
+  projectManagerData:{
+  project:[{
+      projectName: {
         type: String,
         default: ""
       },
-      client: {
+      clientName: {
         type: String,
         default: ""
       },
@@ -35,6 +36,10 @@ const UserSchema = mongoose.Schema({
         default: ""
       },
       duration: {
+        type: Number,
+        default: ""
+      },
+      hours:{
         type: Number,
         default: ""
       },
@@ -56,6 +61,7 @@ const UserSchema = mongoose.Schema({
         default: ""
       }
   }]
+}
 });
 
 UserSchema.methods.apiRepr = function() {

@@ -20,9 +20,9 @@ export class Signup extends React.Component {
       errorText1: "",
       errorText2: "",
       errorText3: "",
-      validationState1: "",
-      validationState2: "",
-      validationState3: ""
+      validationState1: null,
+      validationState2: null,
+      validationState3: null
     };
 
     this.signUpDetails = { fullName: "", userName: "", password: "" };
@@ -30,7 +30,7 @@ export class Signup extends React.Component {
   }
 
   handleClose() {
-    this.setState({ show: false, errorText1: "", errorText2: "", errorText3: "",validationState1: "",validationState2: "",validationState3: "" });
+    this.setState({ show: false, errorText1: "", errorText2: "", errorText3: "",validationState1: null,validationState2:null,validationState3: null});
   }
 
   handleShow() {
@@ -50,12 +50,11 @@ export class Signup extends React.Component {
       this.setState({ errorText1: isTrimmed(value), validationState1: "error" })
       return false;
     }
-    this.setState({ errorText1: "", validationState1: "" })
+    this.setState({ errorText1: "", validationState1:"success" })
     return true;
   }
 
   validateUserName = (value) => {
-    console.log(value)
     if (required(value)) {
       this.setState({ errorText2: required(value), validationState2: "error" })
       return false;
@@ -68,7 +67,7 @@ export class Signup extends React.Component {
       this.setState({ errorText2: isTrimmed(value), validationState2: "error" })
       return false;
     }
-    this.setState({ errorText2: "", validationState2: "" })
+    this.setState({ errorText2: "", validationState2: "success" })
     return true;
   }
 
@@ -96,7 +95,7 @@ export class Signup extends React.Component {
       this.setState({ errorText3: "Cannot be more than 10 characters long", validationState3: "error" })
       return false;
     }
-    this.setState({ errorText3: "", validationState3: "" })
+    this.setState({ errorText3: "", validationState3: "success" })
     return true;
   }
 

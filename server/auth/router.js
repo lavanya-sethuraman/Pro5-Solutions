@@ -28,7 +28,7 @@ router.get('/protected',
       .findOne({ userName })
       .then(user => {
         return res.status(200).json({
-          data: user.expenseManagerData
+          data: user.projectManagerData
         })
       })
   }
@@ -52,45 +52,20 @@ router.post('/refresh',
   }
 );
 
-router.post('/budget', jsonParser, passport.authenticate('jwt', { session: false }),
+router.post('/project', jsonParser, passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
     let { userName } = req.user;
-    let updateBudget = req.body;
+    let updateProject = req.body;
     User.findOne({ userName }, function (err, user) {
-      user.expenseManagerData.budget = updateBudget;
+      user.projectManagerData.project.push(updateProject);
       user.save();
       return res.status(200).json({
-        data: user.expenseManagerData
+        data: user.projectManagerData
       });
     });
   }
 );
 
-router.post('/expense', jsonParser, passport.authenticate('jwt', { session: false }),
-  (req, res, next) => {
-    let { userName } = req.user;
-    let addExpense = req.body;
-    User.findOne({ userName }, function (err, user) {
-      user.expenseManagerData.expense.push(addExpense);
-      let expense = user.expenseManagerData.expense;
-      let grouped = lod.groupBy(expense, 'category');
-      let total = lod.mapValues(grouped, function (t) {
-        return lod.reduce(t, function (sum, n) {
-          return sum + parseInt(n.amount);
-        }, 0);
-      });
-      let totallingInPairs = lod.toPairs(total);
-      var totalExpense = lod.map(totallingInPairs, function(t) {
-      return {"category": t[0], "amount": t[1]};
-      });
-      user.expenseManagerData.totalExpense = totalExpense;
-      user.save();
-      return res.status(200).json({
-        data: user.expenseManagerData
-      });
-    });
-  }
-);
 
 module.exports = { router };
 

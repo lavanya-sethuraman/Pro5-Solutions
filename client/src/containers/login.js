@@ -1,6 +1,6 @@
 import React from 'react';
 import '../index.css';
-import {Button, Modal, Form, FormGroup,Col,FormControl,ControlLabel,HelpBlock } from 'react-bootstrap';
+import {Button, Modal, Form, FormGroup,Col,FormControl,ControlLabel,HelpBlock,Label } from 'react-bootstrap';
 import {login} from '../actions/auth';
 import { connect } from 'react-redux';
 
@@ -14,7 +14,7 @@ export class Login extends React.Component {
   
       this.state = {
         show: false,
-        validationState:"",
+        validationState:null,
         validationError:""
 
       };
@@ -79,7 +79,10 @@ export class Login extends React.Component {
                       </Col>
                     </FormGroup>
                   </Form>
-             
+                  
+                  <h5>Demo Login</h5>
+                  <h5>User<Label bsStyle="info">test@test.com</Label></h5>
+                  <h5>Password<Label bsStyle="info">12345</Label></h5>
             </Modal.Body>
             </div>
           </Modal>

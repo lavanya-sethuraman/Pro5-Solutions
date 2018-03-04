@@ -14,6 +14,7 @@ export const fetchProjectManagerError = error => ({
 });
 
 export const createProject = project => (dispatch, getState) => {
+    console.log("in action", project);
     const authToken = getState().auth.authToken;
     return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'POST',
