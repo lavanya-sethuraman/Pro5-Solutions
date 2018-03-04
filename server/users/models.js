@@ -43,6 +43,10 @@ const UserSchema = mongoose.Schema({
         type: Number,
         default: ""
       },
+      totalHours:{
+        type: Number,
+        default: ""
+      },
       startDate:{
         type: String,
         default: ""

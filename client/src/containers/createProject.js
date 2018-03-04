@@ -17,7 +17,9 @@ export class CreateProject extends React.Component {
     this.handleClose = this.handleClose.bind(this);
 
     this.state = {
-      show: false
+      show: false,
+      duration:0,
+      hours:0
     };
     this.values = { projectName:"",
                     clientName:"",
@@ -26,6 +28,8 @@ export class CreateProject extends React.Component {
                     duration:0,
                     hours:0,
                     cost:0,
+                    totalHours:0,
+                    startDate:Date,
                     document:File
                   };
   }
@@ -39,11 +43,12 @@ export class CreateProject extends React.Component {
   }
   
   create = () =>{
+    this.values.totalHours = this.state.duration*this.state.hours;
     let project =this.values;
     this.handleClose();
     this.props.dispatch(createProject(project));
   }
-  
+
   logOut= () => {
     this.props.dispatch(setCurrentUser(null));
     this.props.dispatch(setAuthToken(null));
@@ -88,19 +93,31 @@ export class CreateProject extends React.Component {
               </FormGroup>
 
               <FormGroup controlId="formControlsDuration">
-                <ControlLabel>Duration</ControlLabel>
+                <ControlLabel>Duration in Weeks</ControlLabel>
                 <FormControl type="Number" min="1" max="52" placeholder="Number of Weeks"
-                onChange={(e) => { this.values.duration = e.currentTarget.value } } />
+                onChange={(e) => { this.values.duration = e.currentTarget.value; this.setState({duration:this.values.duration}) } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsHours">
                 <ControlLabel>Hours per Week</ControlLabel>
                 <FormControl type="Number" min="1" max="40" placeholder="Hours" 
-                onChange={(e) => { this.values.hours = e.currentTarget.value } }/>
+                onChange={(e) => { this.values.hours = e.currentTarget.value; this.setState({hours:this.values.hours})} }/>
+              </FormGroup>
+
+              <FormGroup controlId="formControlsTotalHours">
+                <ControlLabel>Total Hours</ControlLabel>
+                <FormControl type="Number" value={this.state.duration*this.state.hours}
+                 disabled/>
+              </FormGroup>
+
+              <FormGroup controlId="formControlsDate">
+                <ControlLabel>Start Date</ControlLabel>
+                <FormControl type="date" placeholder="Date" min="2018-04-01"
+                onChange={(e) => { this.values.startDate = e.currentTarget.value } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsCost">
-                <ControlLabel>Project Cost</ControlLabel>
+                <ControlLabel>Project Cost per Hour</ControlLabel>
                 <FormControl type="Number" min="0" placeholder="Cost"
                  onChange={(e) => { this.values.cost = e.currentTarget.value } }/>
               </FormGroup>
@@ -111,7 +128,7 @@ export class CreateProject extends React.Component {
                 onChange={(e) => { this.values.document = e.currentTarget.value } } />
               </FormGroup>
 
-            <Button bsStyle="success" bsSize="large" className="center" onClick={this.create}>Create</Button>
+            <Button bsStyle="success"  className="center" onClick={this.create}>Create</Button>
 
             </Form>
             </Modal.Body>

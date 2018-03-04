@@ -14,10 +14,29 @@ export const fetchProjectManagerError = error => ({
 });
 
 export const createProject = project => (dispatch, getState) => {
-    console.log("in action", project);
+    console.log("in create action", project);
     const authToken = getState().auth.authToken;
     return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'POST',
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(project)
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .catch(err => {
+                return (err);
+        });
+}
+
+export const deleteProject = project => (dispatch, getState) => {
+    console.log("in delete action", project);
+    const authToken = getState().auth.authToken;
+    return fetch(`${API_BASE_URL}/auth/project/delete`, {
+        method: 'DELETE',
         headers: {
             Authorization: `Bearer ${authToken}`,
             'Content-Type': 'application/json'

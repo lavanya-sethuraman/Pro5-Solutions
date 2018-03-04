@@ -2,8 +2,8 @@ import React from 'react';
 import '../index.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { fetchProjectManager } from '../actions/project-manager';
-import {Panel,Label,PageHeader,Button} from 'react-bootstrap';
+import { fetchProjectManager, deleteProject } from '../actions/project-manager';
+import {Panel,Label,PageHeader,Button,PanelGroup} from 'react-bootstrap';
 import CreateProject from './createProject.js';
 import ProjectStatus from '../containers/projectStatus';
 
@@ -16,10 +16,13 @@ export class Dashboard extends React.Component {
     }
     this.props.dispatch(fetchProjectManager());
   }
-
+  
+  deleteProject = (project) =>{
+    this.props.dispatch(deleteProject(project));
+  }
     
     render() {
-
+      console.log("in dashboard", this.props);
       if (!this.props.loggedIn) {
         return <Redirect to="/" />;
       }
@@ -28,20 +31,20 @@ export class Dashboard extends React.Component {
       let projectDetails;
       if (project.length !== 0) {
         projectDetails = project.map((item, index) => (
-          <Panel bsStyle="info" key={index}>
+          <Panel bsStyle="info" eventKey={index} key={index}>
             <Panel.Heading>
-              <Panel.Title componentClass="h3">{item.projectName}</Panel.Title>
+              <Panel.Title toggle>{item.projectName}</Panel.Title>
             </Panel.Heading>
-            <Panel.Body>
-              <h3>Client Name <Label>{item.clientName}</Label> </h3>
-              <h3>Project Description <Label>{item.description}</Label> </h3>
-              <h3>Technology Used <Label>{item.technology}</Label> </h3>
-              <h3>Duration <Label>{item.duration}</Label> </h3>
-              <h3>Hours <Label>{item.hours}</Label> </h3>
-              <h3>Project Cost <Label>{item.cost}</Label> </h3>
-              <h3>Project Document <Label>{item.document}</Label> </h3>
+            <Panel.Body collapsible>
+              <h5>Client Name <Label>{item.clientName}</Label> </h5>
+              <h5>Project Description <Label>{item.description}</Label> </h5>
+              <h5>Technology Used <Label>{item.technology}</Label> </h5>
+              <h5>Duration <Label>{item.duration}</Label> </h5>
+              <h5>Hours <Label>{item.hours}</Label> </h5>
+              <h5>Project Cost <Label>{item.cost}</Label> </h5>
+              <h5>Project Document <Label>{item.document}</Label> </h5>
+              <ProjectStatus project={item} deleteProject={this.deleteProject.bind(this)}/>
             </Panel.Body>
-            <Panel.Footer><ProjectStatus project={item} /></Panel.Footer>
           </Panel>
         ));
         }
@@ -49,8 +52,10 @@ export class Dashboard extends React.Component {
 
       return (
         <div>
-        <PageHeader>Ongoing Projects <small>PM</small></PageHeader>
+        <PageHeader>Ongoing Projects <small>{this.props.name}</small></PageHeader>
+        <PanelGroup accordion id="projects">
         {projectDetails}
+        </PanelGroup>
         <CreateProject />
       </div>
       );

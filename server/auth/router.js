@@ -55,9 +55,28 @@ router.post('/refresh',
 router.post('/project', jsonParser, passport.authenticate('jwt', { session: false }),
   (req, res, next) => {
     let { userName } = req.user;
-    let updateProject = req.body;
+    let project = req.body;
     User.findOne({ userName }, function (err, user) {
-      user.projectManagerData.project.push(updateProject);
+      user.projectManagerData.project.push(project);
+      user.save();
+      return res.status(200).json({
+        data: user.projectManagerData
+      });
+    });
+  }
+);
+
+router.delete('/project/delete', jsonParser, passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    let { userName } = req.user;
+    let projectId = req.body._id;
+    console.log(projectId)
+    User.findOne({ userName }, function (err, user) {
+      user.projectManagerData.project.forEach(function (project, index) {
+        if (projectId == project._id) {
+          user.projectManagerData.project.splice(index, 1);
+        }
+      });
       user.save();
       return res.status(200).json({
         data: user.projectManagerData
