@@ -3,10 +3,12 @@ import '../index.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { fetchProjectManager, deleteProject, updateProject } from '../actions/project-manager';
-import {Panel,Label,PageHeader,Button,PanelGroup} from 'react-bootstrap';
+import {Panel,PageHeader,PanelGroup,ListGroup,ListGroupItem} from 'react-bootstrap';
 import CreateProject from './createProject.js';
 import DeleteProject from '../components/deleteProject';
 import UpdateProject from '../components/updateProject';
+import PlanProject from '../components/planProject';
+import Task from '../components/tasks'
 
 
 
@@ -26,37 +28,58 @@ export class Dashboard extends React.Component {
   updateProject = (project) => {
     this.props.dispatch(updateProject(project));
   }
-    
+
     render() {
-      console.log("in dashboard", this.props);
       if (!this.props.loggedIn) {
         return <Redirect to="/" />;
       }
+
       const project = this.props.projectManager.project;
-      
       let projectDetails;
+      let tasks=[], taskDisplay;
+      
+
       if (project.length !== 0) {
-        projectDetails = project.map((item, index) => (
+
+      //   projectDetails = project.map((item, index) => (tasks.push(item.tasks)));
+        
+      //   taskDisplay = tasks.forEach((item) => 
+      //   item.map((task, index) => ( 
+      //   <li key={index}>{task.task}-{task.hours}Hours</li>
+      // )));
+
+        projectDetails = project.map((item, index) => {
+          return(
           <Panel bsStyle="info" eventKey={index} key={index}>
             <Panel.Heading>
               <Panel.Title toggle>{item.projectName}</Panel.Title>
             </Panel.Heading>
             <Panel.Body collapsible>
-              <h5>Client Name <Label>{item.clientName}</Label> </h5>
-              <h5>Project Description <Label>{item.description}</Label> </h5>
-              <h5>Technology Used <Label>{item.technology}</Label> </h5>
-              <h5>Duration <Label>{item.duration}</Label> </h5>
-              <h5>Hours <Label>{item.hours}</Label> </h5>
-              <h5>Project Cost <Label>{item.cost}</Label> </h5>
-              <h5>Project Document <Label>{item.document}</Label> </h5>
-              <DeleteProject project={item} deleteProject={this.deleteProject.bind(this)}/>
+              <ListGroup>
+                <ListGroupItem header="Client Name:"> {item.clientName} </ListGroupItem>
+                <ListGroupItem header="Project Description:"> {item.description}</ListGroupItem>
+                <ListGroupItem header="Technology Used:"> {item.technology}</ListGroupItem>
+                <ListGroupItem header="Tasks"><Task tasks={item.tasks}/></ListGroupItem>
+                <ListGroupItem header=" Total Hours:"> {item.totalHours}</ListGroupItem>
+                <ListGroupItem header="Project Cost:"> {item.cost}</ListGroupItem>
+                <ListGroupItem header="Project Document:"> {item.document}</ListGroupItem>
+                <ListGroupItem >
+              <PlanProject project={item} planProject={this.updateProject.bind(this)} />
               <UpdateProject project={item} updateProject={this.updateProject.bind(this)}/>
+              <DeleteProject project={item} deleteProject={this.deleteProject.bind(this)}/>
+                </ListGroupItem>
+              </ListGroup>
             </Panel.Body>
           </Panel>
-        ));
+          );
+        });
+
+
+
+
         }
         
-
+        console.log()
       return (
         <div>
         <PageHeader>Ongoing Projects <small>{this.props.name}</small></PageHeader>

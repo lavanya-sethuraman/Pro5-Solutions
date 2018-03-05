@@ -30,7 +30,6 @@ export class Login extends React.Component {
     }
 
     login = () => {
-      console.log(this.values.userName,this.values.password)
       this.props.dispatch(login(this.values.userName, this.values.password))
       .then(res => {
          if (res !== undefined){

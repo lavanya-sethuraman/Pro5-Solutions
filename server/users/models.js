@@ -59,7 +59,7 @@ const UserSchema = mongoose.Schema({
         type: String,
         default: ""
       },
-      tasks: [],
+      tasks: [{}],
       document: {
         type: String,
         default: ""

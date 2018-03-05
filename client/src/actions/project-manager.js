@@ -71,7 +71,6 @@ export const updateProject = project => (dispatch, getState) => {
 }
 
 
-
 export const fetchProjectManager = () => (dispatch, getState) => {
     const authToken = getState().auth.authToken;
     return fetch(`${API_BASE_URL}/auth/protected`, {

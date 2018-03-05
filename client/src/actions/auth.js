@@ -23,7 +23,6 @@ const storeAuthInfo = (authToken, dispatch) => {
 };
 
 export const login = (userName, password) => dispatch => {
-
     const token = btoa(`${userName}:${password}`);
     return (
         fetch(`${API_BASE_URL}/auth/login`, {
