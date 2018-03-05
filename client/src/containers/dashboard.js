@@ -2,10 +2,12 @@ import React from 'react';
 import '../index.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { fetchProjectManager, deleteProject } from '../actions/project-manager';
+import { fetchProjectManager, deleteProject, updateProject } from '../actions/project-manager';
 import {Panel,Label,PageHeader,Button,PanelGroup} from 'react-bootstrap';
 import CreateProject from './createProject.js';
-import ProjectStatus from '../containers/projectStatus';
+import DeleteProject from '../components/deleteProject';
+import UpdateProject from '../components/updateProject';
+
 
 
 export class Dashboard extends React.Component {
@@ -17,8 +19,12 @@ export class Dashboard extends React.Component {
     this.props.dispatch(fetchProjectManager());
   }
   
-  deleteProject = (project) =>{
+  deleteProject = (project) => {
     this.props.dispatch(deleteProject(project));
+  }
+
+  updateProject = (project) => {
+    this.props.dispatch(updateProject(project));
   }
     
     render() {
@@ -43,7 +49,8 @@ export class Dashboard extends React.Component {
               <h5>Hours <Label>{item.hours}</Label> </h5>
               <h5>Project Cost <Label>{item.cost}</Label> </h5>
               <h5>Project Document <Label>{item.document}</Label> </h5>
-              <ProjectStatus project={item} deleteProject={this.deleteProject.bind(this)}/>
+              <DeleteProject project={item} deleteProject={this.deleteProject.bind(this)}/>
+              <UpdateProject project={item} updateProject={this.updateProject.bind(this)}/>
             </Panel.Body>
           </Panel>
         ));

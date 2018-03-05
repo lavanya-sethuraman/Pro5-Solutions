@@ -70,7 +70,6 @@ router.delete('/project/delete', jsonParser, passport.authenticate('jwt', { sess
   (req, res, next) => {
     let { userName } = req.user;
     let projectId = req.body._id;
-    console.log(projectId)
     User.findOne({ userName }, function (err, user) {
       user.projectManagerData.project.forEach(function (project, index) {
         if (projectId == project._id) {
@@ -85,6 +84,23 @@ router.delete('/project/delete', jsonParser, passport.authenticate('jwt', { sess
   }
 );
 
+router.put('/project/update', jsonParser, passport.authenticate('jwt', { session: false }),
+  (req, res, next) => {
+    let { userName } = req.user;
+    let projectId = req.body._id;
+    User.findOne({ userName }, function (err, user) {
+      user.projectManagerData.project.forEach(function (project, index) {
+        if (projectId == project._id) {
+          user.projectManagerData.project.splice(index,1,req.body);
+        }
+      });
+      user.save();
+      return res.status(200).json({
+        data: user.projectManagerData
+      });
+    });
+  }
+);
 
 module.exports = { router };
 

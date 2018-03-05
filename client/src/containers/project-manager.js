@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from '../components/home';
+import Home from '../containers/home';
 import Dashboard from './dashboard';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';

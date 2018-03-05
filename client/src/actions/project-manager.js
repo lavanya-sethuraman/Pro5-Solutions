@@ -51,6 +51,25 @@ export const deleteProject = project => (dispatch, getState) => {
         });
 }
 
+export const updateProject = project => (dispatch, getState) => {
+    console.log("in update action", project);
+    const authToken = getState().auth.authToken;
+    return fetch(`${API_BASE_URL}/auth/project/update`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(project)
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .catch(err => {
+                return (err);
+        });
+}
+
 
 
 export const fetchProjectManager = () => (dispatch, getState) => {

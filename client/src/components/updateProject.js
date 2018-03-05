@@ -1,67 +1,38 @@
 import React from 'react';
 import '../index.css';
-import { connect } from 'react-redux';
 import { Button, Modal, Form, FormGroup,FormControl, ControlLabel } from 'react-bootstrap';
-import { createProject } from '../actions/project-manager';
-import {setCurrentUser, setAuthToken} from '../actions/auth';
-import {clearAuthToken} from '../local-storage';
 
-
-
-export class CreateProject extends React.Component {
+export class UpdateProject extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
     this.state = {
       show: false,
       duration:0,
       hours:0
     };
-    this.values = { projectName:"Default",
-                    clientName:"Default",
-                    description:"Unknown",
-                    technology:"Unknown",
-                    duration:0,
-                    hours:0,
-                    cost:0,
-                    totalHours:0,
-                    startDate:Date,
-                    document:File
-                  };
+    this.values = Object.assign({},this.props.project);
   }
 
-  handleClose() {
+  handleClose = () => {
     this.setState({ show: false });
   }
 
-  handleShow() {
+  handleShow = () => {
     this.setState({ show: true });
   }
   
-  create = () =>{
-    this.values.totalHours = this.state.duration*this.state.hours;
-    let project =this.values;
-    this.handleClose();
-    this.props.dispatch(createProject(project));
+  update = () =>{
+   this.handleClose();
+  let values = Object.assign({},this.props.project,this.values);
+  
+   this.props.updateProject(values);
   }
-
-  logOut= () => {
-    this.props.dispatch(setCurrentUser(null));
-    this.props.dispatch(setAuthToken(null));
-    clearAuthToken();
-}
   render() {
-
     return (
-      <div>
-        <Button bsStyle="success" bsSize="large" className="center" onClick={this.handleShow}>Create a New Project</Button>
-        <Button bsStyle="danger" className="logout" onClick={this.logOut}>Log-out</Button>
-
-        <Modal show={this.state.show} onHide={this.handleClose}>
+      <div className="buttons">
+            <Button bsStyle="warning" bsSize="small" className="buttons" onClick={this.handleShow}>Update</Button>
+            <Modal show={this.state.show} onHide={this.handleClose}>
           <div>
             <Modal.Header closeButton>
               <Modal.Title>Project Details</Modal.Title>
@@ -70,80 +41,80 @@ export class CreateProject extends React.Component {
               <Form>
               <FormGroup controlId="formControlsName">
                 <ControlLabel>Project Name</ControlLabel>
-                <FormControl type="text" placeholder="Project Name"
+                <FormControl type="text" placeholder={this.values.projectName}
                 onChange={(e) => { this.values.projectName = e.currentTarget.value } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsClient">
                 <ControlLabel>Client Name</ControlLabel>
-                <FormControl type="text" placeholder="Client Name"
+              <FormControl type="text" placeholder={this.values.clientName}
                 onChange={(e) => { this.values.clientName = e.currentTarget.value } }/>
               </FormGroup>
 
               <FormGroup controlId="formControlsDesc">
                 <ControlLabel>Description</ControlLabel>
-                <FormControl componentClass="textarea" type="textArea" placeholder="Description"
+                <FormControl componentClass="textarea" type="textArea" placeholder={this.values.description}
                 onChange={(e) => { this.values.description = e.currentTarget.value } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsTech">
                 <ControlLabel>Technology Used</ControlLabel>
-                <FormControl componentClass="textarea" type="textarea" placeholder="Technology Used"
+                <FormControl componentClass="textarea" type="textarea" placeholder={this.values.technology}
                 onChange={(e) => { this.values.technology = e.currentTarget.value } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsDuration">
                 <ControlLabel>Duration in Weeks</ControlLabel>
-                <FormControl type="Number" min="1" max="52" placeholder="Number of Weeks"
+              <FormControl type="Number" min="1" max="52" placeholder={this.values.duration}
                 onChange={(e) => { this.values.duration = e.currentTarget.value; this.setState({duration:this.values.duration}) } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsHours">
                 <ControlLabel>Hours per Week</ControlLabel>
-                <FormControl type="Number" min="1" max="40" placeholder="Hours" 
+                <FormControl type="Number" min="1" max="40" placeholder={this.values.hours}
                 onChange={(e) => { this.values.hours = e.currentTarget.value; this.setState({hours:this.values.hours})} }/>
               </FormGroup>
 
               <FormGroup controlId="formControlsTotalHours">
                 <ControlLabel>Total Hours</ControlLabel>
-                <FormControl type="Number" value={this.state.duration*this.state.hours}
+                <FormControl type="Number" placeholder={this.state.duration*this.state.hours}
                  disabled/>
               </FormGroup>
 
               <FormGroup controlId="formControlsDate">
                 <ControlLabel>Start Date</ControlLabel>
-                <FormControl type="date" placeholder="Date" min="2018-04-01"
+                <FormControl type="date" placeholder="Date" min="2018-04-01" value={this.values.startDate}
                 onChange={(e) => { this.values.startDate = e.currentTarget.value } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsCost">
                 <ControlLabel>Project Cost per Hour</ControlLabel>
-                <FormControl type="Number" min="0" placeholder="Cost"
+                <FormControl type="Number" min="0" placeholder={this.values.cost}
                  onChange={(e) => { this.values.cost = e.currentTarget.value } }/>
               </FormGroup>
 
               <FormGroup controlId="formControlsFile">
                 <ControlLabel>Document</ControlLabel>
-                <FormControl type="File" placeholder="Choose File"
+                <FormControl type="File" placeholder="No file Choosen"
                 onChange={(e) => { this.values.document = e.currentTarget.value } } />
               </FormGroup>
 
-            <Button bsStyle="success"  className="center" onClick={this.create}>Create</Button>
+            <Button bsStyle="success"  className="center" onClick={this.update}>Update</Button>
 
             </Form>
             </Modal.Body>
           </div>
         </Modal>
-      </div>
+        </div>
+      
     );
   }
 
 }
 
-const mapStateToProps = state => ({
-  project: state.projectManager.project
-});
 
-export default connect(mapStateToProps)(CreateProject);
+export default UpdateProject;
+
+
 
 

@@ -7,23 +7,22 @@ import Signup from '../containers/signup';
 import Login from '../containers/login';
 
 export function Home(props) {
-    console.log("in Home Component", props);
+
     if (props.loggedIn) {
         return <Redirect to="/dashboard" />;
     }
-    
+
     return (
         <Jumbotron className="jumbotron">
             <h1>Project Management Tool</h1>
             <p>
                 Please sign-up or log-in to start using this Tool!
             </p>
-            
-                <ButtonToolbar >
-                    <Signup />
-                    <Login />
-                </ButtonToolbar>
-            
+            <ButtonToolbar >
+                <Signup />
+                <Login />
+            </ButtonToolbar>
+
         </Jumbotron>
     );
 }
