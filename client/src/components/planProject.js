@@ -28,7 +28,7 @@ export class PlanProject extends React.Component {
       
 
   plan = () => {
-    let entry = {task:this.state.task,hours:this.state.hours};
+    let entry = {task:this.state.task,hours:this.state.hours,status:false};
 
     if(entry.task == ""){
       this.setState({ validationTask:"error", validationError1:"Cannot be blank"});
@@ -36,7 +36,12 @@ export class PlanProject extends React.Component {
     } else if( entry.hours > parseInt(this.props.project.totalHours)-this.taskHours){
       this.setState({ validationHours:"error", validationError2:"more than total Hours"});
       this.handleShow();
-    } else{
+    } else if( entry.hours == 0 || entry.hours ==""){
+      this.setState({ validationHours:"error", validationError2:"cannot be 0 or blank"});
+      this.handleShow();
+    }
+    
+    else{
     let tasks = this.props.project.tasks;
     tasks.push(entry);
     this.handleClose();
@@ -56,7 +61,8 @@ export class PlanProject extends React.Component {
     }
     return (
         <div className="buttons">
-      <Button bsStyle="primary" bsSize="small" className="buttons" onClick={this.handleShow}>Project planning</Button>
+      <Button bsStyle="primary" bsSize="small" className="buttons bottom" onClick={this.handleShow}>Add task</Button>
+      <Button bsStyle="danger" bsSize="small" className="buttons bottom" >Delete task</Button>
       <Modal show={this.state.show} onHide={this.handleClose}>
           
             <Modal.Header closeButton>

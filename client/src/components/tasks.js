@@ -1,24 +1,39 @@
 import React from 'react';
 import '../index.css';
-import { Form,Checkbox } from 'react-bootstrap';
+import { Form, Checkbox } from 'react-bootstrap';
 
 
 
-export default function Task(props){
+export class Task extends React.Component {
 
- let tasks;
- tasks = props.tasks.map((task,index) => (
-    <Checkbox  key={index} >{task.task}-{task.hours}Hours</Checkbox>
- ));
- 
- return (<Form>
-{tasks}
+    constructor(props, context) {
+        super(props, context);
+        this.tasks = this.props.project.tasks;
+
+    }
+
+    taskStatus = (e) => {
+        console.log(e.currentTarget.value);
+    }
+
+
+    render() {
+
+        if (typeof (this.props.project.tasks) !== 'undefined') {
+            this.tasks = this.props.project.tasks.map((task, index) =>
+                (
+                    <Checkbox id={index} value={task.task} checked={task.status} disabled={task.status}
+                        onChange={(e) => { this.taskStatus(e) }}> {task.task} - {task.hours} hours </Checkbox>
+                ) );  
     
- </Form>
- );
+        }
+
+        return (<Form>
+            {this.tasks}
+
+        </Form>
+        );
+
+    }
 }
-
-Task.defaultProps = {
-    tasks: []
-};
-
+    export default Task;

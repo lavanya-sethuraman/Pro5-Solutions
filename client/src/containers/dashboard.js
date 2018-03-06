@@ -57,15 +57,15 @@ export class Dashboard extends React.Component {
                 <ListGroupItem header="Tasks">
                 <ListGroup>
                 <ProgressBar active bsStyle="success" now={40} />
-                <Task tasks={project.tasks}/>
-                <ListGroupItem header="Start Date"> {project.startDate}</ListGroupItem>
+                <Task project={project}/>
+                <PlanProject project={project} planProject={this.updateProject.bind(this)} />
+                <ListGroupItem header="Start Date:"> {project.startDate}</ListGroupItem>
                 <ListGroupItem header=" Total Hours:"> {project.totalHours}</ListGroupItem>
                 </ListGroup>
                 </ListGroupItem>
 
                 <ListGroupItem header="Project Document:"> {project.document}</ListGroupItem>
                 <ListGroupItem >
-              <PlanProject project={project} planProject={this.updateProject.bind(this)} />
               <UpdateProject project={project} updateProject={this.updateProject.bind(this)}/>
               <DeleteProject project={project} deleteProject={this.deleteProject.bind(this)}/>
                 </ListGroupItem>

@@ -20,6 +20,9 @@ body {
   display: inline;
   margin-left: 10px;
 }
+.bottom{
+  margin-bottom: 5px;
+}
 .logout{
   float: right;
 }
