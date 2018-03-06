@@ -3,7 +3,7 @@ import '../index.css';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { fetchProjectManager, deleteProject, updateProject } from '../actions/project-manager';
-import {Panel,PageHeader,PanelGroup,ListGroup,ListGroupItem} from 'react-bootstrap';
+import {Panel,PageHeader,PanelGroup,ListGroup,ListGroupItem, ProgressBar} from 'react-bootstrap';
 import CreateProject from './createProject.js';
 import DeleteProject from '../components/deleteProject';
 import UpdateProject from '../components/updateProject';
@@ -13,6 +13,7 @@ import Task from '../components/tasks'
 
 
 export class Dashboard extends React.Component {
+  
 
   componentDidMount() {
     if (!this.props.loggedIn) {
@@ -33,40 +34,40 @@ export class Dashboard extends React.Component {
       if (!this.props.loggedIn) {
         return <Redirect to="/" />;
       }
-
-      const project = this.props.projectManager.project;
+      
+      const projects = this.props.projectManager.project;
       let projectDetails;
-      let tasks=[], taskDisplay;
       
 
-      if (project.length !== 0) {
+      if (projects.length !== 0) {
 
-      //   projectDetails = project.map((item, index) => (tasks.push(item.tasks)));
-        
-      //   taskDisplay = tasks.forEach((item) => 
-      //   item.map((task, index) => ( 
-      //   <li key={index}>{task.task}-{task.hours}Hours</li>
-      // )));
-
-        projectDetails = project.map((item, index) => {
+        projectDetails = projects.map((project, index) => {
           return(
           <Panel bsStyle="info" eventKey={index} key={index}>
             <Panel.Heading>
-              <Panel.Title toggle>{item.projectName}</Panel.Title>
+              <Panel.Title toggle>{project.projectName}</Panel.Title>
             </Panel.Heading>
             <Panel.Body collapsible>
               <ListGroup>
-                <ListGroupItem header="Client Name:"> {item.clientName} </ListGroupItem>
-                <ListGroupItem header="Project Description:"> {item.description}</ListGroupItem>
-                <ListGroupItem header="Technology Used:"> {item.technology}</ListGroupItem>
-                <ListGroupItem header="Tasks"><Task tasks={item.tasks}/></ListGroupItem>
-                <ListGroupItem header=" Total Hours:"> {item.totalHours}</ListGroupItem>
-                <ListGroupItem header="Project Cost:"> {item.cost}</ListGroupItem>
-                <ListGroupItem header="Project Document:"> {item.document}</ListGroupItem>
+                <ListGroupItem header="Client Name:"> {project.clientName} </ListGroupItem>
+                <ListGroupItem header="Project Description:"> {project.description}</ListGroupItem>
+                <ListGroupItem header="Technology Used:"> {project.technology}</ListGroupItem>
+                <ListGroupItem header="Project Cost(per hour):"> {project.cost}</ListGroupItem>
+                
+                <ListGroupItem header="Tasks">
+                <ListGroup>
+                <ProgressBar bsStyle="success" now={40} />
+                <Task tasks={project.tasks}/>
+                <ListGroupItem header="Start Date"> {project.startDate}</ListGroupItem>
+                <ListGroupItem header=" Total Hours:"> {project.totalHours}</ListGroupItem>
+                </ListGroup>
+                </ListGroupItem>
+
+                <ListGroupItem header="Project Document:"> {project.document}</ListGroupItem>
                 <ListGroupItem >
-              <PlanProject project={item} planProject={this.updateProject.bind(this)} />
-              <UpdateProject project={item} updateProject={this.updateProject.bind(this)}/>
-              <DeleteProject project={item} deleteProject={this.deleteProject.bind(this)}/>
+              <PlanProject project={project} planProject={this.updateProject.bind(this)} />
+              <UpdateProject project={project} updateProject={this.updateProject.bind(this)}/>
+              <DeleteProject project={project} deleteProject={this.deleteProject.bind(this)}/>
                 </ListGroupItem>
               </ListGroup>
             </Panel.Body>
@@ -79,7 +80,7 @@ export class Dashboard extends React.Component {
 
         }
         
-        console.log()
+  
       return (
         <div>
         <PageHeader>Ongoing Projects <small>{this.props.name}</small></PageHeader>

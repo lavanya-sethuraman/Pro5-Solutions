@@ -19,7 +19,8 @@ export class CreateProject extends React.Component {
     this.state = {
       show: false,
       duration:0,
-      hours:0
+      hours:0,
+      
     };
     this.values = { projectName:"Default",
                     clientName:"Default",

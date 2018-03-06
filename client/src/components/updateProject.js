@@ -24,6 +24,7 @@ export class UpdateProject extends React.Component {
   
   update = () =>{
    this.handleClose();
+  this.values.totalHours = this.state.duration*this.state.hours;
   let values = Object.assign({},this.props.project,this.values);
   
    this.props.updateProject(values);

@@ -23,6 +23,7 @@ export class DeleteProject extends React.Component {
   
 
   delete = () => {
+    this.handleClose();
     this.props.deleteProject(this.props.project);
   }
 
