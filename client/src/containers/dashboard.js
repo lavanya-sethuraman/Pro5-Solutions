@@ -56,7 +56,7 @@ export class Dashboard extends React.Component {
                 
                 <ListGroupItem header="Tasks">
                 <ListGroup>
-                <ProgressBar bsStyle="success" now={40} />
+                <ProgressBar active bsStyle="success" now={40} />
                 <Task tasks={project.tasks}/>
                 <ListGroupItem header="Start Date"> {project.startDate}</ListGroupItem>
                 <ListGroupItem header=" Total Hours:"> {project.totalHours}</ListGroupItem>

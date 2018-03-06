@@ -8,8 +8,8 @@ export class UpdateProject extends React.Component {
     super(props, context);
     this.state = {
       show: false,
-      duration:0,
-      hours:0
+      duration:this.props.project.duration,
+      hours:this.props.project.hours
     };
     this.values = Object.assign({},this.props.project);
   }
@@ -23,7 +23,7 @@ export class UpdateProject extends React.Component {
   }
   
   update = () =>{
-   this.handleClose();
+  this.handleClose();
   this.values.totalHours = this.state.duration*this.state.hours;
   let values = Object.assign({},this.props.project,this.values);
   
@@ -66,13 +66,13 @@ export class UpdateProject extends React.Component {
 
               <FormGroup controlId="formControlsDuration">
                 <ControlLabel>Duration in Weeks</ControlLabel>
-              <FormControl type="Number" min="1" max="52" placeholder={this.values.duration}
+              <FormControl type="Number" min={this.values.duration} max="52" placeholder={this.values.duration}
                 onChange={(e) => { this.values.duration = e.currentTarget.value; this.setState({duration:this.values.duration}) } } />
               </FormGroup>
 
               <FormGroup controlId="formControlsHours">
                 <ControlLabel>Hours per Week</ControlLabel>
-                <FormControl type="Number" min="1" max="40" placeholder={this.values.hours}
+                <FormControl type="Number" min={this.props.project.hours} max="40" placeholder={this.values.hours}
                 onChange={(e) => { this.values.hours = e.currentTarget.value; this.setState({hours:this.values.hours})} }/>
               </FormGroup>
 
