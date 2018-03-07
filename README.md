@@ -1,7 +1,6 @@
 # Pro5 Project Management Tool
 
- **HTML Wireframe**:https://repl.it/@lavanyasethuraman/html-wireframe-for-project-manager-dashboard
- 
+![dock](Pro5-Project.png) 
 
 ### About the App
 A Project Management Tool.
