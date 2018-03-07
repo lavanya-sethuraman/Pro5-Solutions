@@ -13,8 +13,7 @@ import Task from '../components/tasks'
 
 
 export class Dashboard extends React.Component {
-  
-
+ 
   componentDidMount() {
     if (!this.props.loggedIn) {
       return;
@@ -29,6 +28,8 @@ export class Dashboard extends React.Component {
   updateProject = (project) => {
     this.props.dispatch(updateProject(project));
   }
+
+  
 
     render() {
       if (!this.props.loggedIn) {
@@ -54,10 +55,10 @@ export class Dashboard extends React.Component {
                 <ListGroupItem header="Technology Used:"> {project.technology}</ListGroupItem>
                 <ListGroupItem header="Project Cost(per hour):"> {project.cost}</ListGroupItem>
                 
-                <ListGroupItem header="Tasks">
+                <ListGroupItem header="Tasks">Remaining Hours:{this.hoursRemaining}
                 <ListGroup>
-                <ProgressBar active bsStyle="success" now={40} />
-                <Task project={project}/>
+                <ProgressBar active bsStyle="success" now={60} />
+                <Task project={project} manageTasks={this.updateProject} />
                 <PlanProject project={project} planProject={this.updateProject.bind(this)} />
                 <ListGroupItem header="Start Date:"> {project.startDate}</ListGroupItem>
                 <ListGroupItem header=" Total Hours:"> {project.totalHours}</ListGroupItem>

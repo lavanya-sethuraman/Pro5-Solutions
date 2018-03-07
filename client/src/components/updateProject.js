@@ -1,6 +1,6 @@
 import React from 'react';
 import '../index.css';
-import { Button, Modal, Form, FormGroup,FormControl, ControlLabel } from 'react-bootstrap';
+import { Button, Modal, Form, FormGroup,FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 
 export class UpdateProject extends React.Component {
 
@@ -9,7 +9,8 @@ export class UpdateProject extends React.Component {
     this.state = {
       show: false,
       duration:this.props.project.duration,
-      hours:this.props.project.hours
+      hours:this.props.project.hours,
+      validationError:""
     };
     this.values = Object.assign({},this.props.project);
   }
@@ -24,12 +25,20 @@ export class UpdateProject extends React.Component {
   
   update = () =>{
   this.handleClose();
+  if(this.state.duration*this.state.hours < this.props.project.totalHours){
+    this.setState({
+      validateUpdateHours:"error",
+      validationError:"Cannot be less than already Set Hours"
+    });
+    this.handleShow();
+  }
   this.values.totalHours = this.state.duration*this.state.hours;
   let values = Object.assign({},this.props.project,this.values);
   
    this.props.updateProject(values);
   }
   render() {
+
     return (
       <div className="buttons">
             <Button bsStyle="warning" bsSize="small" className="buttons" onClick={this.handleShow}>Update</Button>
@@ -78,9 +87,10 @@ export class UpdateProject extends React.Component {
 
               <FormGroup controlId="formControlsTotalHours">
                 <ControlLabel>Total Hours</ControlLabel>
-                <FormControl type="Number" placeholder={this.state.duration*this.state.hours}
+                <FormControl type="Number" placeholder={this.state.duration*this.state.hours} 
                  disabled/>
               </FormGroup>
+              <HelpBlock>{this.state.validationError}</HelpBlock>
 
               <FormGroup controlId="formControlsDate">
                 <ControlLabel>Start Date</ControlLabel>

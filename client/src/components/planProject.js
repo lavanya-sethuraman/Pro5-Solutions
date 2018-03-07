@@ -62,7 +62,6 @@ export class PlanProject extends React.Component {
     return (
         <div className="buttons">
       <Button bsStyle="primary" bsSize="small" className="buttons bottom" onClick={this.handleShow}>Add task</Button>
-      <Button bsStyle="danger" bsSize="small" className="buttons bottom" >Delete task</Button>
       <Modal show={this.state.show} onHide={this.handleClose}>
           
             <Modal.Header closeButton>

@@ -26,3 +26,6 @@ body {
 .logout{
   float: right;
 }
+.complete label{
+  text-decoration: line-through ;
+}
