@@ -1,15 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-
-const {User} = require('./models');
-
-const router = express.Router();
+const { User } = require('./models');
 
 const jsonParser = bodyParser.json();
+const router = express.Router();
 let currentUser = "";
 
-router.post('/', jsonParser, (req, res,next) => {
+router.post('/', jsonParser, (req, res, next) => {
   const requiredFields = ['userName', 'password'];
   const missingField = requiredFields.find(field => !(field in req.body));
 
@@ -36,10 +34,10 @@ router.post('/', jsonParser, (req, res,next) => {
     });
   }
 
-  let {userName, password, fullName} = req.body;
+  let { userName, password, fullName } = req.body;
 
   return User
-    .find({userName})
+    .find({ userName })
     .count()
     .then(count => {
       if (count > 0) {
@@ -66,13 +64,13 @@ router.post('/', jsonParser, (req, res,next) => {
         code: 201,
         reason: '',
         user: user.apiRepr()
-      })     
+      })
     })
     .catch(err => {
       if (err.reason === 'ValidationError') {
         return res.status(err.code).json(err);
       }
-      res.status(500).json({code: 500, message: 'Internal server error'});
+      res.status(500).json({ code: 500, message: 'Internal server error' });
     });
 });
 
@@ -81,8 +79,8 @@ router.get('/', (req, res) => {
   return User
     .find()
     .then(users => res.json(users.map(user => user.apiRepr())))
-    .catch(err => res.status(500).json({message: 'Internal server error'}));
+    .catch(err => res.status(500).json({ message: 'Internal server error' }));
 });
 
 
-module.exports = {router};
+module.exports = { router };

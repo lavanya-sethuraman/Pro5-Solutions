@@ -1,8 +1,8 @@
-import {API_BASE_URL} from '../config';
-import {normalizeResponseErrors} from './utils';
+import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from './utils';
 
 export const registerUser = user => dispatch => {
-    console.log("User Details", user);
+
     return fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         headers: {
@@ -13,7 +13,7 @@ export const registerUser = user => dispatch => {
         .then(res => normalizeResponseErrors(res))
         .then(res => (res.json()))
         .catch(err => {
-                return (err);
+            return (err);
         });
 };
 

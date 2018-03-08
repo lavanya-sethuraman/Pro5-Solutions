@@ -29,7 +29,7 @@ export class ProjectManager extends React.Component {
     startPeriodicRefresh() {
         this.refreshInterval = setInterval(
             () => this.props.dispatch(refreshAuthToken()),
-            60 * 60 * 1000 
+            60 * 60 * 1000
         );
     }
 
@@ -42,16 +42,16 @@ export class ProjectManager extends React.Component {
     }
     render() {
         return (
-            
-                <Router>
-                    <div>
-                        <main>
-                            <Route exact path="/" component={Home} />
-                            <Route exact path="/dashboard" component={Dashboard} />
-                        </main>
-                    </div>
-                </Router>
-            
+
+            <Router>
+                <div>
+                    <main>
+                        <Route exact path="/" component={Home} />
+                        <Route exact path="/dashboard" component={Dashboard} />
+                    </main>
+                </div>
+            </Router>
+
         );
     }
 }

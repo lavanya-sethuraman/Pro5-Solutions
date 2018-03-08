@@ -1,20 +1,14 @@
 import React from 'react';
 import '../index.css';
-import { Button, Modal, Form, FormGroup, Col, FormControl, ControlLabel,HelpBlock } from 'react-bootstrap';
+import { Button, Modal, Form, FormGroup, Col, FormControl, ControlLabel, HelpBlock } from 'react-bootstrap';
 import { required, nonEmpty, isTrimmed } from '../validators';
 import { registerUser } from '../actions/users';
 import { login } from '../actions/auth';
 import { connect } from 'react-redux';
 
-
-
 export class Signup extends React.Component {
   constructor(props, context) {
     super(props, context);
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
-
     this.state = {
       show: false,
       errorText1: "",
@@ -24,16 +18,15 @@ export class Signup extends React.Component {
       validationState2: null,
       validationState3: null
     };
-
     this.signUpDetails = { fullName: "", userName: "", password: "" };
-
   }
 
-  handleClose() {
-    this.setState({ show: false, errorText1: "", errorText2: "", errorText3: "",validationState1: null,validationState2:null,validationState3: null});
+  handleClose = () => {
+    this.setState({ show: false, errorText1: "", errorText2: "", errorText3: "", 
+                    validationState1: null, validationState2: null, validationState3: null });
   }
 
-  handleShow() {
+  handleShow = () => {
     this.setState({ show: true });
   }
 
@@ -50,7 +43,7 @@ export class Signup extends React.Component {
       this.setState({ errorText1: isTrimmed(value), validationState1: "error" })
       return false;
     }
-    this.setState({ errorText1: "", validationState1:"success" })
+    this.setState({ errorText1: "", validationState1: "success" })
     return true;
   }
 

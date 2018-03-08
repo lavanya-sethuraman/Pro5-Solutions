@@ -22,7 +22,6 @@ export function Home(props) {
                 <Signup />
                 <Login />
             </ButtonToolbar>
-
         </Jumbotron>
     );
 }

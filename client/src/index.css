@@ -1,4 +1,4 @@
-*{
+* {
   box-sizing: border-box;
 }
 body {
@@ -7,25 +7,25 @@ body {
   font-family: sans-serif;
   background-color:  #00c0d424;
 }
-.jumbotron{
+.jumbotron {
   background-color:  #00c0d424;
   margin: 20px;
   text-align: center;
 }
-.center{
+.center {
   text-align: center;
   float: none !important
 }
-.buttons{
+.buttons {
   display: inline;
   margin-left: 10px;
 }
-.bottom{
+.bottom {
   margin-bottom: 5px;
 }
-.logout{
+.logout {
   float: right;
 }
-.complete label{
+.complete label {
   text-decoration: line-through ;
 }

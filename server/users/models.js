@@ -18,7 +18,7 @@ const UserSchema = mongoose.Schema({
     default: ""
   },
   projectManagerData:{
-  project:[{
+  projects:[{
       projectName: {
         type: String,
         default: ""

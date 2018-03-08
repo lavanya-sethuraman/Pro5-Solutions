@@ -1,9 +1,9 @@
-import {createStore, applyMiddleware, combineReducers} from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
-import {loadAuthToken} from './local-storage';
+import { loadAuthToken } from './local-storage';
 import authReducer from './reducers/auth';
 import projectManagerReducer from './reducers/project-manager';
-import {setAuthToken} from './actions/auth';
+import { setAuthToken } from './actions/auth';
 
 const store = createStore(
     combineReducers({

@@ -1,17 +1,17 @@
 const passport = require('passport');
-const {BasicStrategy} = require('passport-http');
+const { BasicStrategy } = require('passport-http');
 const {
-    Strategy: JwtStrategy,
-    ExtractJwt
+  Strategy: JwtStrategy,
+  ExtractJwt
 } = require('passport-jwt');
 
-const {User} = require('../users/models');
-const {JWT_SECRET} = require('../config');
+const { User } = require('../users/models');
+const { JWT_SECRET } = require('../config');
 
 const basicStrategy = new BasicStrategy((userName, password, callback) => {
   let user;
   User
-    .findOne({userName: userName})
+    .findOne({ userName: userName })
     .then(_user => {
       user = _user;
       if (!user) {
@@ -40,13 +40,13 @@ const basicStrategy = new BasicStrategy((userName, password, callback) => {
 });
 
 const jwtStrategy = new JwtStrategy({
-    secretOrKey: JWT_SECRET,
-    jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
-    algorithms: ['HS256']
-  },
+  secretOrKey: JWT_SECRET,
+  jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
+  algorithms: ['HS256']
+},
   (payload, done) => {
     done(null, payload.user)
   }
 );
 
-module.exports = {basicStrategy, jwtStrategy};
+module.exports = { basicStrategy, jwtStrategy };

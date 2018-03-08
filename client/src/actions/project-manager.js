@@ -1,6 +1,6 @@
-import {API_BASE_URL} from '../config';
-import {normalizeResponseErrors} from './utils';
-   
+import { API_BASE_URL } from '../config';
+import { normalizeResponseErrors } from './utils';
+
 export const FETCH_PROJECT_MANAGER_SUCCESS = 'FETCH_PROJECT_MANAGER_SUCCESS';
 export const fetchProjectManagerSuccess = data => ({
     type: FETCH_PROJECT_MANAGER_SUCCESS,
@@ -13,8 +13,7 @@ export const fetchProjectManagerError = error => ({
     error
 });
 
-export const createProject = project => (dispatch, getState) => {
-    console.log("in create action", project);
+export const createProject = project => (dispatch, getState) => {  
     const authToken = getState().auth.authToken;
     return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'POST',
@@ -26,16 +25,15 @@ export const createProject = project => (dispatch, getState) => {
     })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
-        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .then(({ data }) => dispatch(fetchProjectManagerSuccess(data)))
         .catch(err => {
-                return (err);
+            return (err);
         });
 }
 
-export const deleteProject = project => (dispatch, getState) => {
-    console.log("in delete action", project);
+export const deleteProject = project => (dispatch, getState) => { 
     const authToken = getState().auth.authToken;
-    return fetch(`${API_BASE_URL}/auth/project/delete`, {
+    return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'DELETE',
         headers: {
             Authorization: `Bearer ${authToken}`,
@@ -45,16 +43,15 @@ export const deleteProject = project => (dispatch, getState) => {
     })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
-        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .then(({ data }) => dispatch(fetchProjectManagerSuccess(data)))
         .catch(err => {
-                return (err);
+            return (err);
         });
 }
 
 export const updateProject = project => (dispatch, getState) => {
-    console.log("in update action", project);
     const authToken = getState().auth.authToken;
-    return fetch(`${API_BASE_URL}/auth/project/update`, {
+    return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${authToken}`,
@@ -64,16 +61,16 @@ export const updateProject = project => (dispatch, getState) => {
     })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
-        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .then(({ data }) => dispatch(fetchProjectManagerSuccess(data)))
         .catch(err => {
-                return (err);
+            return (err);
         });
 }
 
 
 export const fetchProjectManager = () => (dispatch, getState) => {
     const authToken = getState().auth.authToken;
-    return fetch(`${API_BASE_URL}/auth/protected`, {
+    return fetch(`${API_BASE_URL}/auth/project`, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${authToken}`
@@ -81,7 +78,7 @@ export const fetchProjectManager = () => (dispatch, getState) => {
     })
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
-        .then(({data}) => dispatch(fetchProjectManagerSuccess(data)))
+        .then(({ data }) => dispatch(fetchProjectManagerSuccess(data)))
         .catch(err => {
             dispatch(fetchProjectManagerError(err));
         });
