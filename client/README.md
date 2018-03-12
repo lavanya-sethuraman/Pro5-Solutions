@@ -1,9 +1,8 @@
-# Pro5 Project Management Tool
+# Project Management Tool
 
 **Live**:https://project-management-tool.netlify.com/
 
-
-![dock](Pro5-Project.png) 
+![dock](Project.png) 
 
 ### About the App
 A Project Management Tool.
@@ -22,7 +21,7 @@ Individual project status can be checked. New tasks can be added,updated or dele
 ### Technology Used
 
 ### Front-end
-- React.js, Redux, Redux Thunk, HTML, CSS3, React-Bootstrap
+- React.js, Redux, Redux Thunk, JWT authentication, HTML, CSS3, React-Bootstrap
 
 ### Back-end
-- Node.js, Express.js, Passport.js, JWT authentication, REST APIs, MongoDB, Mongoose
+- Node.js, Express.js, Passport.js, REST APIs, MongoDB, Mongoose
