@@ -8,8 +8,8 @@
 ### About the App
 A Project Management Tool.
 Project manager signs-up new or logs-in into existing account to create new projects.
-Once the project is created, he can manage the projects (Add new, Update existing, Delete) the projects.
-Individual project status can be checked. New tasks can be added,updated or deleted.
+Once the project is created, he can manage(Add new, Update existing, Delete) the projects.
+Individual project status can be checked. New tasks can be added or marked done.
 
 
 ### Features
